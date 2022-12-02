@@ -15,15 +15,13 @@ func main() {
 	l := log.New(os.Stdout, "product-api", log.LstdFlags)
 
 	// 初始化路由
-	hh := handlers.NewHello(l)
-	gh := handlers.NewGoodbye(l)
+	ph := handlers.NewProducts(l)
 
 	// 创建多路复用器
 	sm := http.NewServeMux()
 
 	// 注册路由
-	sm.Handle("/", hh)
-	sm.Handle("/goodbye", gh)
+	sm.Handle("/", ph)
 
 	// 服务配置
 	s := &http.Server{
@@ -34,6 +32,7 @@ func main() {
 		WriteTimeout: 1 * time.Second,
 	}
 	// 服务监听
+	l.Println("Server listening on port 9090")
 	go func() {
 		err := s.ListenAndServe()
 		if err != nil {
